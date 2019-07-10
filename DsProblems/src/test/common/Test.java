@@ -20,18 +20,4 @@ public class Test {
         System.out.println("Max: " + mh.removeMax(true));
         mh.print();
     }
-
-    public static int diagonalDifference(List<List<Integer>> arr) {
-// Write your code here
-        int size = arr.size();
-        int primarySum = 0;
-        int secondarySum = 0;
-        int childSize = arr.get(0).size();
-        for(int i = 0; i < size; i++){
-            List<Integer> child = arr.get(i);
-            primarySum += child.get(i);
-            secondarySum += child.get(childSize-(i+1));
-        }
-        return java.lang.Math.abs(primarySum-secondarySum);
-    }
 }
