@@ -44,7 +44,7 @@ public class KingsMarch {
 
     public static Pair<Integer, Integer> findMaxPointsAndPath(ChessBoard board, King king) {
         while (king.canMoveNext()) {
-            List<Pair<Integer, Pair<Integer, Integer>>> nexts = new ArrayList<>();
+            Map<Pair<Integer, Integer>, Integer> nexts = new HashMap<>();
             for (Pair<Integer, Pair<Integer, Integer>> pp : king.getCurrentPositions()) {
                 List<Pair<Integer, Integer>> temp = king.nextSteps(pp.second(), board::isValidPoint);
                 for (Pair<Integer, Integer> p : temp) {
@@ -52,16 +52,11 @@ public class KingsMarch {
                     if (board.isTarget(p)) {
                         king.addCompletedPath(score);
                     } else {
-                        nexts.add(new Pair<>(score, p));
+                        nexts.put(p, Math.max(nexts.getOrDefault(p, 0), score));
                     }
                 }
             }
-            king.moveNext(nexts);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            king.moveNext(nexts.entrySet().stream().map(e -> new Pair<>(e.getValue(), e.getKey())).collect(Collectors.toList()));
         }
 
         if (king.getCompletedPathMap().isEmpty()) {
