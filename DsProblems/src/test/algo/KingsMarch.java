@@ -4,6 +4,43 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/*
+Problem:
+The King's March
+You’re given a chess board with dimension n x n. There’s a king at the bottom right square of the board marked with s. The king needs to reach the top left square marked with e. The rest of the squares are labeled either with an integer p (marking a point) or with x marking an obstacle. Note that the king can move up, left and up-left (diagonal) only. Find the maximum points the king can collect and the number of such paths the king can take in order to do so.
+
+Input Format
+The first line of input consists of an integer t. This is the number of test cases. Each test case contains a number n which denotes the size of board. This is followed by n lines each containing n space separated tokens.
+
+Output Format
+For each case, print in a separate line the maximum points that can be collected and the number of paths available in order to ensure maximum, both values separated by a space. If e is unreachable from s, print 0 0.
+
+Sample Input
+3
+3
+e 2 3
+2 x 2
+1 2 s
+3
+e 1 2
+1 x 1
+2 1 s
+3
+e 1 1
+x x x
+1 1 s
+Sample Output
+7 1
+4 2
+0 0
+Constraints
+1 <= t <= 100
+
+2 <= n <= 200
+
+1 <= p <= 9 
+
+*/
 public class Main {
     public static void main(String[] args) throws Exception {
         Function<Pair<Integer, Integer>, List<Pair<Integer, Integer>>> kingMoveF = p -> Arrays.asList(new Pair<>(p.first(), p.second() - 1), new Pair<>(p.first() - 1, p.second() - 1), new Pair<>(p.first() - 1, p.second()));
