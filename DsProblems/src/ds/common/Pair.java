@@ -1,4 +1,4 @@
-package test.common;
+package ds.common;
 
 public class Pair <F, S> {
     private F first;

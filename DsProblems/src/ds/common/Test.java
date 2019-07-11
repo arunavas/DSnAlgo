@@ -1,4 +1,4 @@
-package test.common;
+package ds.common;
 
 import java.util.List;
 
@@ -10,14 +10,14 @@ public class Test {
         mh.insert(7, false);
         mh.insert(8, false);
         mh.insert(2, false);
-        mh.insert(3, false);
+        /*mh.insert(3, false);
         mh.insert(4, false);
         mh.insert(5, false);
         mh.insert(1, false);
         mh.insert(0, false);
         mh.insert(6, true);
         mh.print();
-        System.out.println("Max: " + mh.removeMax(true));
+        System.out.println("Max: " + mh.removeMax(true));*/
         mh.print();
     }
 }

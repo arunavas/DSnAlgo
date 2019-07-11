@@ -1,4 +1,4 @@
-package test.common;
+package ds.common;
 
 import java.util.ArrayList;
 import java.util.Arrays;

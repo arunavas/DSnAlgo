@@ -1,3 +1,5 @@
+package ds.algo;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -6,14 +8,18 @@ import java.util.stream.Collectors;
 
 /*
 Problem:
-The King's March
-You’re given a chess board with dimension n x n. There’s a king at the bottom right square of the board marked with s. The king needs to reach the top left square marked with e. The rest of the squares are labeled either with an integer p (marking a point) or with x marking an obstacle. Note that the king can move up, left and up-left (diagonal) only. Find the maximum points the king can collect and the number of such paths the king can take in order to do so.
+The ds.algo.King's March
+You’re given a chess board with dimension n x n. There’s a king at the bottom right square of the board marked with s.
+The king needs to reach the top left square marked with e. The rest of the squares are labeled either with an integer p (marking a point) or with x marking an obstacle.
+Note that the king can move up, left and up-left (diagonal) only. Find the maximum points the king can collect and the number of such paths the king can take in order to do so.
 
 Input Format
-The first line of input consists of an integer t. This is the number of test cases. Each test case contains a number n which denotes the size of board. This is followed by n lines each containing n space separated tokens.
+The first line of input consists of an integer t. This is the number of test cases. Each test case contains a number n which denotes the size of board.
+This is followed by n lines each containing n space separated tokens.
 
 Output Format
-For each case, print in a separate line the maximum points that can be collected and the number of paths available in order to ensure maximum, both values separated by a space. If e is unreachable from s, print 0 0.
+For each case, print in a separate line the maximum points that can be collected and the number of paths available in order to ensure maximum, both values separated by a space.
+If e is unreachable from s, print 0 0.
 
 Sample Input
 3
@@ -41,7 +47,7 @@ Constraints
 1 <= p <= 9 
 
 */
-public class Main {
+public class KingsMarch {
     public static void main(String[] args) throws Exception {
         Function<Pair<Integer, Integer>, List<Pair<Integer, Integer>>> kingMoveF = p -> Arrays.asList(new Pair<>(p.first(), p.second() - 1), new Pair<>(p.first() - 1, p.second() - 1), new Pair<>(p.first() - 1, p.second()));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -66,8 +72,8 @@ public class Main {
             ChessBoard board = new ChessBoard(chessSquares);
             inputs.add(new Pair<>(board, king));
         }
-        /*for (Pair<ChessBoard, King> p : inputs) {
-            Pair<Integer, Integer> res = findMaxPointsAndPath(p.first(), p.second());
+        /*for (ds.algo.Pair<ds.algo.ChessBoard, ds.algo.King> p : inputs) {
+            ds.algo.Pair<Integer, Integer> res = findMaxPointsAndPath(p.first(), p.second());
             System.out.println(res.first() + " " + res.second());
         }*/
         long s = System.currentTimeMillis();
@@ -80,7 +86,7 @@ public class Main {
         int maxCompleted = 0;
         int maxPath = 0;
         while (king.canMoveNext()) {
-            //Map<Pair<x, y>, Pair<Count, Score>>
+            //Map<ds.algo.Pair<x, y>, ds.algo.Pair<Count, Score>>
             //System.out.println("Current: " + king.getCurrentPositions() + " - " + king.getCompletedPathMap());
             Map<Pair<Integer, Integer>, Pair<Integer, Integer>> nexts = new HashMap<>();
             for (Map.Entry<Pair<Integer, Integer>, Pair<Integer, Integer>> pp : king.getCurrentPositions().entrySet()) {
@@ -99,7 +105,7 @@ public class Main {
                         } else if (existing.second() < score) {
                             nexts.put(p, new Pair<>(Math.max(1, pp.getValue().first()), score));
                         } /*else {
-                            nexts.put(p, new Pair<>(1, score));
+                            nexts.put(p, new ds.algo.Pair<>(1, score));
                         }*/
                     }
                 }
@@ -125,6 +131,7 @@ public class Main {
 
 class King {
     private final Function<Pair<Integer, Integer>, List<Pair<Integer, Integer>>> moveF;
+    //Map<ds.algo.Pair<Y, X>, ds.algo.Pair<Count, Score>>
     private Map<Pair<Integer, Integer>, Pair<Integer, Integer>> currentPositions = new HashMap<>();
     private TreeMap<Integer, Integer> completedPathMap = new TreeMap<>(Collections.reverseOrder());
 
@@ -242,7 +249,6 @@ class ChessBoard {
         return score;
     }
 }
-
 
 
 class Pair <F, S> {

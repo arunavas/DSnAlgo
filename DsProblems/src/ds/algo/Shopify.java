@@ -1,11 +1,7 @@
-package test.algo;
-
-import test.common.Pair;
+package ds.algo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Find the maximum number of concurrent sessions in the following data with the first value representing start time and last value end time. The input is not necessarily sorted.
