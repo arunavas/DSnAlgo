@@ -1,13 +1,10 @@
-package test.algo;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class KingsMarch {
-
+public class Main {
     public static void main(String[] args) throws Exception {
         Function<Pair<Integer, Integer>, List<Pair<Integer, Integer>>> kingMoveF = p -> Arrays.asList(new Pair<>(p.first(), p.second() - 1), new Pair<>(p.first() - 1, p.second() - 1), new Pair<>(p.first() - 1, p.second()));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -43,22 +40,43 @@ public class KingsMarch {
     }
 
     public static Pair<Integer, Integer> findMaxPointsAndPath(ChessBoard board, King king) {
+        int maxCompleted = 0;
+        int maxPath = 0;
         while (king.canMoveNext()) {
-            Map<Pair<Integer, Integer>, Integer> nexts = new HashMap<>();
-            for (Pair<Integer, Pair<Integer, Integer>> pp : king.getCurrentPositions()) {
-                List<Pair<Integer, Integer>> temp = king.nextSteps(pp.second(), board::isValidPoint);
+            //Map<Pair<x, y>, Pair<Count, Score>>
+            //System.out.println("Current: " + king.getCurrentPositions() + " - " + king.getCompletedPathMap());
+            Map<Pair<Integer, Integer>, Pair<Integer, Integer>> nexts = new HashMap<>();
+            for (Map.Entry<Pair<Integer, Integer>, Pair<Integer, Integer>> pp : king.getCurrentPositions().entrySet()) {
+                List<Pair<Integer, Integer>> temp = king.nextSteps(pp.getKey(), board::isValidPoint);
+                //System.out.println("\t" + pp.getKey() + " -> " + temp);
                 for (Pair<Integer, Integer> p : temp) {
-                    int score = pp.first() + board.getScore(p);
+                    int score = pp.getValue().second() + board.getScore(p);
                     if (board.isTarget(p)) {
-                        king.addCompletedPath(score);
+                        king.addCompletedPath(score, Math.max(1, pp.getValue().first()));
                     } else {
-                        nexts.put(p, Math.max(nexts.getOrDefault(p, 0), score));
+                        Pair<Integer, Integer> existing = nexts.getOrDefault(p, null);
+                        if (existing == null) {
+                            nexts.put(p, new Pair<>(Math.max(1, pp.getValue().first()), score));
+                        } else if (existing.second() == score) {
+                            nexts.put(p, new Pair<>(existing.first() + pp.getValue().first(), score));
+                        } else if (existing.second() < score) {
+                            nexts.put(p, new Pair<>(Math.max(1, pp.getValue().first()), score));
+                        } /*else {
+                            nexts.put(p, new Pair<>(1, score));
+                        }*/
                     }
                 }
             }
-            king.moveNext(nexts.entrySet().stream().map(e -> new Pair<>(e.getValue(), e.getKey())).collect(Collectors.toList()));
+            king.moveNext(nexts);
+            if (king.getCompletedPathMap().size() > maxCompleted) {
+                maxCompleted = king.getCompletedPathMap().size();
+            }
+            if (king.getCurrentPositions().size() > maxPath) {
+                maxPath = king.getCurrentPositions().size();
+            }
         }
 
+        System.out.println("MaxPath: " + maxPath + " | MaxCompleted: " + maxCompleted);
         if (king.getCompletedPathMap().isEmpty()) {
             return new Pair<Integer, Integer>(0, 0);
         } else {
@@ -66,24 +84,23 @@ public class KingsMarch {
             return new Pair<Integer, Integer>(e.getKey(), e.getValue());
         }
     }
-
 }
 
 class King {
     private final Function<Pair<Integer, Integer>, List<Pair<Integer, Integer>>> moveF;
-    private List<Pair<Integer, Pair<Integer, Integer>>> currentPositions;
+    private Map<Pair<Integer, Integer>, Pair<Integer, Integer>> currentPositions = new HashMap<>();
     private TreeMap<Integer, Integer> completedPathMap = new TreeMap<>(Collections.reverseOrder());
 
     public King(Pair<Integer, Integer> initial, Function<Pair<Integer, Integer>, List<Pair<Integer, Integer>>> moveF) {
         this.moveF = moveF;
-        currentPositions = Arrays.asList(new Pair<Integer, Pair<Integer, Integer>>(0, initial));
+        currentPositions.put(initial, new Pair<>(0, 0));
     }
 
     public boolean canMoveNext() {
         return currentPositions != null && !currentPositions.isEmpty();
     }
 
-    public void moveNext(List<Pair<Integer, Pair<Integer, Integer>>> nexts) {
+    public void moveNext(Map<Pair<Integer, Integer>, Pair<Integer, Integer>> nexts) {
         this.currentPositions = nexts;
     }
 
@@ -91,12 +108,12 @@ class King {
         return moveF.apply(point).stream().filter(validatorF::apply).collect(Collectors.toList());
     }
 
-    public List<Pair<Integer, Pair<Integer, Integer>>> getCurrentPositions() {
+    public Map<Pair<Integer, Integer>, Pair<Integer, Integer>> getCurrentPositions() {
         return this.currentPositions;
     }
 
-    public void addCompletedPath(int score) {
-        completedPathMap.put(score, completedPathMap.getOrDefault(score, 0) + 1);
+    public void addCompletedPath(int score, int count) {
+        completedPathMap.put(score, completedPathMap.getOrDefault(score, 0) + count);
     }
 
     public TreeMap<Integer, Integer> getCompletedPathMap() {
