@@ -51,11 +51,11 @@ public class Heap {
         return idx * 2 + 2;
     }
 
-    public int getMax() {
+    public int getExtreme() {
         return (offset > 0) ? elems[0] : EXCEPTIONAL_VALUE;
     }
 
-    public int removeMax(boolean verbose) {
+    public int removeExtreme(boolean verbose) {
         int max = EXCEPTIONAL_VALUE;
         if (offset > 0) {
             max = elems[0];
@@ -71,15 +71,17 @@ public class Heap {
         if ((offset + 1) < MAX_CAPACITY) {
             offset++;
             elems[offset] = n;
+            int c = offset;
             int cv = n;
-            int p = getParentOf(offset);
+            int p = getParentOf(c);
             int pv = getValueOf(p);
             int step = 1;
             if (verbose) System.out.println("Step " + (step++) + ": " + Arrays.toString(elems));
             while (relationF.apply(pv, cv) && p >= 0) {
                 heapify(p, false);
-                cv = pv;
-                p = getParentOf(p);
+                c = p;
+                cv = getValueOf(c);
+                p = getParentOf(c);
                 pv = getValueOf(p);
                 if (verbose) System.out.println("Step " + (step++) + ": " + Arrays.toString(elems));
             }
