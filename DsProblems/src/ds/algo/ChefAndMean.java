@@ -1,4 +1,4 @@
-package codechef;
+package ds.algo;
 
 import ds.common.ListUtil;
 
