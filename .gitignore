@@ -52,3 +52,10 @@ cabal.project.local
 cabal.project.local~
 .HTF/
 .ghc.environment.*
+
+### Scala
+.DS_Store
+.cache-main
+.classpath
+.project
+.prefs
