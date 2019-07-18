@@ -1,8 +1,6 @@
 package ds.algo;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 /*
 Problem:
@@ -39,12 +37,14 @@ Testcase 1: here n = 2 and k = 1, then safe position is 2 as the person at 1st p
  */
 public class SafePosition {
     public static void main(String[] args) {
-        int n = 4;
+        int n = 5;
         int k = 3;
-        System.out.println(remaining(n, k));
-        System.out.println(solution(0, n, k));
+        System.out.println(remaining(n, k) + 1);
+        System.out.println(solution(n, k));
     }
 
+    //http://blue.butler.edu/~phenders/InRoads/MathCounts8.pdf
+    //https://stackoverflow.com/questions/3810789/removal-of-every-kth-person-from-a-circle-find-the-last-remaining-person
     static int remaining(int n, int k) {
         int r = 0;
         for (int i = 2; i <= n; i++) {
@@ -55,34 +55,20 @@ public class SafePosition {
         return r;
     }
 
-    private static int solution(int s, int n, int k) {
-        int res = 0;
-        /*if (k == 1) {
-            res = n - 1;
-        } else if (n == 1) {
-            res = s;
-        } else {
-            int kk = k > n ? (k % n == 0 ? 1 : k % n) : k;
-            solution(((s + kk) % n) - 1, n - 1, k);
-        }*/
-        Set<Integer> circle = new HashSet<>();
+    private static int solution(int n, int k) {
+        List<Integer> lst = new ArrayList<>(n);
         for (int i = 0; i < n; i++) {
-            circle.add(i);
+            lst.add(i);
         }
-        while (circle.size() > 1) {
-            s = (s + k) % circle.size();
-            circle.remove(s - 1);
-            System.out.println("Circle: " + circle + " " + s);
-        }
-        /*int l = n;
-        s = (s + k) % l;
+        int s = k;
+        int l = n;
         while (n > 1) {
-            s = (s + k) % l;
+            int r = lst.remove(s);
+            System.out.println((l - n) + " " + s + " " + lst + " x" + r);
+            s = (s + k) % n;
             n--;
-            System.out.println("Step: " + (l - n) + " -> " + s);
         }
-        res = s;*/
 
-        return res;
+        return lst.get(0);
     }
 }
