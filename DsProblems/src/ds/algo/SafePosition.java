@@ -1,5 +1,7 @@
 package ds.algo;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /*
@@ -36,7 +38,7 @@ Explanation:
 Testcase 1: here n = 2 and k = 1, then safe position is 2 as the person at 1st position will be killed.
  */
 public class SafePosition {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         int n = 5;
         int k = 3;
         System.out.println(remaining(n, k) + 1);
@@ -45,6 +47,17 @@ public class SafePosition {
 
     //http://blue.butler.edu/~phenders/InRoads/MathCounts8.pdf
     //https://stackoverflow.com/questions/3810789/removal-of-every-kth-person-from-a-circle-find-the-last-remaining-person
+    /*
+    This problem is based on Josephus problem.
+
+    The problem has following recursive structure.
+    josephus(n, k) = (josephus(n - 1, k) + k-1) % n + 1
+    josephus(1, k) = 1
+    After the first person (kth from begining) is killed, n-1 persons are left.
+    So we call josephus(n – 1, k) to get the position with n-1 persons.
+    But the position returned by josephus(n – 1, k) will consider the position starting from k%n + 1.
+    So, we must make adjustments to the position returned by josephus(n – 1, k).
+     */
     static int remaining(int n, int k) {
         int r = 0;
         for (int i = 2; i <= n; i++) {
