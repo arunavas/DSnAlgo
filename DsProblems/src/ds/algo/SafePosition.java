@@ -64,7 +64,6 @@ public class SafePosition {
             r = (r + k) % i;
             //System.out.println(" " + r);
         }
-
         return r;
     }
 
