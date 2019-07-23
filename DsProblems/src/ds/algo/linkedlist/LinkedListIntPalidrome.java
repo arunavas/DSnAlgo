@@ -1,6 +1,6 @@
-package ds.algo;
+package ds.algo.linkedlist;
 
-import ds.algo.SingleLinkedListReversal.ListNode;
+import ds.algo.linkedlist.SingleLinkedListReversal.ListNode;
 
 /*
 Problem:

@@ -1,4 +1,4 @@
-package ds.algo;
+package ds.algo.linkedlist;
 
 public class SingleLinkedListReversal {
     public static void main(String[] args) {
