@@ -27,23 +27,59 @@ Here are all the possible sums:
  */
 public class PossibleCoinsSum {
     public static void main(String[] args) {
-        int[] coins = new int[] {1, 2};
-        int[] qs = new int[] {50000, 2};
+        int[] coins = new int[] {10, 50, 100, 500};
+        int[] qs = new int[] {5, 3, 2, 2};
         /*int[] coins = new int[] {10, 50, 100};
         int[] qs = new int[] {1, 2, 1};*/
         System.out.println(possibleSums(coins, qs));
+        Set<Integer> sums = new HashSet<>();
+        generateSums(coins, qs, 0, 0, sums);
+        System.out.println(sums.size() - 1);
     }
 
-    private static void doSum(int[] coins, int[] quantity, int idx, Set<Integer> sums, int acc) {
+    //TODO find bug in doSum with respect to generateSums
+
+    private static void doSum(int[] coins, int[] quantity, int idx, Set<Integer> sums, int acc, String str) {
         if (idx >= quantity.length) return;
         int q = quantity[idx];
         int sum = acc;
+        boolean flag = str.isEmpty();
         while (q > 0) {
             q--;
             sum += coins[idx];
+            str += flag ? coins[idx] : " + " + coins[idx];
+            flag = false;
             sums.add(sum);
-            doSum(coins, quantity, idx + 1, sums, sum);
+            System.out.println(spaces(idx) + coins[idx] + "." + (quantity[idx] - q) + " -> " + str + " = " + sum);
+            doSum(coins, quantity, idx + 1, sums, sum, str);
         }
+    }
+
+    public static void generateSums(int[] coins,int[] quantity,int i,int sum,Set<Integer> set){
+        if(i==coins.length){
+            set.add(sum);
+            return;
+        }
+        if(quantity[i]==0){
+            set.add(sum);
+            generateSums(coins, quantity, i+1, sum,set);
+        }else{
+            set.add(sum);
+            quantity[i]=quantity[i]-1;
+            generateSums(coins, quantity, i, sum+coins[i],set);
+            //backtrack. now increase the quantity since we havent used the ith coin and moving to next coin
+            quantity[i]=quantity[i]+1;
+            generateSums(coins, quantity, i+1, sum, set);
+        }
+    }
+
+    private static String spaces(int c) {
+        StringBuilder sb = new StringBuilder();
+        while (c > 0) {
+            sb.append(" ");
+            c--;
+        }
+        return sb.toString();
     }
 
     /*
@@ -69,7 +105,12 @@ public class PossibleCoinsSum {
     private static int possibleSums(int[] coins, int[] quantity) {
         Set<Integer> sums = new HashSet<>();
         for (int i = 0; i < coins.length; i++) {
-            doSum(coins, quantity, i, sums, 0);
+            System.out.print(coins[i] + "x" + quantity[i]);
+            System.out.print(" ");
+        }
+        System.out.println();
+        for (int i = 0; i < coins.length; i++) {
+            doSum(coins, quantity, i, sums, 0, "");
         }
         return sums.size();
     }
