@@ -23,8 +23,8 @@ public class SwapLexOrder {
         ps[3] = new int[] {1, 6};
         String str = "acxrabdz";
         System.out.println(str + " -> " + swapLexOrder(str, ps));*/
-        int[][] ps = new int[][] {new int[] {8,5}, new int[] {10,8}, new int[] {4,18}, new int[] {20,12}, new int[] {5,2}, new int[] {17,2}, new int[] {13,25}, new int[] {29,12}, new int[] {22,2}, new int[] {17,11}};
-        String str = "fixmfbhyutghwbyezkveyameoamqoi";
+        int[][] ps = new int[][] {new int[] {16,26}, new int[] {2,25}, new int[] {25,27}, new int[] {19,20}, new int[] {13,20}, new int[] {4,26}, new int[] {19,27}, new int[] {18,26}, new int[] {13,23}, new int[] {1,4}, new int[] {11,19}, new int[] {16,19}, new int[] {25,28}, new int[] {19,30}, new int[] {19,25}, new int[] {1,11}, new int[] {2,20}, new int[] {10,22}, new int[] {6,19}, new int[] {7,26}, new int[] {3,30}, new int[] {15,23}, new int[] {12,26}, new int[] {1,3}, new int[] {3,12}, new int[] {3,26}, new int[] {16,30}, new int[] {2,16}, new int[] {4,13}};
+        String str = "wdvvvuxuswroaxfybkikevtliryxyracjypxrygxxuehpowimunjjswhgvdhieybfgccscbubisbujbncdeaotxktfcfoanajloq";
         System.out.println(str + " -> " + swapLexOrder(str, ps));
     }
 
@@ -54,24 +54,24 @@ public class SwapLexOrder {
 
     private static Set<List<Integer>> getConnectedIndexes(int[][] pairs) {
         Set<List<Integer>> idxs = new HashSet<>();
-        Map<Integer, List<Integer>> idxMap = new LinkedHashMap<>();
+        Map<Integer, Set<Integer>> idxMap = new LinkedHashMap<>();
         for (int[] p : pairs) {
             if (idxMap.containsKey(p[0]) && idxMap.containsKey(p[1])) {
-                List<Integer> s1 = idxMap.get(p[0]);
-                List<Integer> s2 = idxMap.get(p[1]);
-                List<Integer> temp = new ArrayList<>(s1);
+                Set<Integer> s1 = idxMap.get(p[0]);
+                Set<Integer> s2 = idxMap.get(p[1]);
+                Set<Integer> temp = new HashSet<>(s1);
                 s1.addAll(s2);
                 s2.addAll(temp);
             } else if (idxMap.containsKey(p[0])) {
-                List<Integer> s = idxMap.get(p[0]);
+                Set<Integer> s = idxMap.get(p[0]);
                 s.add(p[1]);
                 idxMap.put(p[1], s);
             } else if (idxMap.containsKey(p[1])) {
-                List<Integer> s = idxMap.get(p[1]);
+                Set<Integer> s = idxMap.get(p[1]);
                 s.add(p[0]);
                 idxMap.put(p[0], s);
             } else {
-                List<Integer> s = new ArrayList<>();
+                Set<Integer> s = new HashSet<>();
                 s.add(p[0]);
                 s.add(p[1]);
                 idxMap.put(p[0], s);
@@ -80,11 +80,10 @@ public class SwapLexOrder {
         }
         Set<Integer> t = new HashSet<>(idxMap.keySet());
         for (Integer i : t) {
-            List<Integer> s = idxMap.get(i);
+            Set<Integer> s = idxMap.get(i);
             if (s != null && !s.isEmpty()) {
                 s.forEach(idxMap::remove);
-                Collections.sort(s);
-                idxs.add(s);
+                idxs.add(s.stream().sorted().collect(Collectors.toList()));
             }
         }
         return idxs;
