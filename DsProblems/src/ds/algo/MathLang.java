@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +50,7 @@ public class MathLang {
                 } else if (!file.canRead()) {
                     System.out.println("Error: '" + path + "' does not have read permission!");
                 } else {
-                    Either<String, List<String>> res = new MathLang().execute(Files.readAllLines(Path.of(path)));
+                    Either<String, List<String>> res = new MathLang().execute(Files.readAllLines(Paths.get(path)));
                     System.out.println("Output of '" + path + "'");
                     switch (res.which()) {
                         case LEFT:
