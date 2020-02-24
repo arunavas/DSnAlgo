@@ -1,9 +1,8 @@
-package com.relcache.core.pocs;
+package ds.pocs;
 
-import com.relcache.core.ds.Either;
-import com.relcache.core.ds.Left;
-import com.relcache.core.ds.Right;
-
+import ds.common.Either;
+import ds.common.Left;
+import ds.common.Right;
 import java.util.Objects;
 
 public class QueryEager {
@@ -201,17 +200,17 @@ public class QueryEager {
 
         @Override
         public Either<String, Bool> exec(Either<String, Number> elhs, Number rhs) {
-            return elhs.flatmap(l -> exec(l, rhs));
+            return elhs.flatMap(l -> exec(l, rhs));
         }
 
         @Override
         public Either<String, Bool> exec(Number lhs, Either<String, Number> erhs) {
-            return erhs.flatmap(r -> exec(lhs, r));
+            return erhs.flatMap(r -> exec(lhs, r));
         }
 
         @Override
         public Either<String, Bool> exec(Either<String, Number> elhs, Either<String, Number> erhs) {
-            return elhs.flatmap(l -> erhs.flatmap(r -> exec(l, r)));
+            return elhs.flatMap(l -> erhs.flatMap(r -> exec(l, r)));
         }
     }
 
@@ -250,17 +249,17 @@ public class QueryEager {
 
         @Override
         public Either<String, Number> exec(Either<String, Number> elhs, Number rhs) {
-            return elhs.flatmap(l -> exec(l, rhs));
+            return elhs.flatMap(l -> exec(l, rhs));
         }
 
         @Override
         public Either<String, Number> exec(Number lhs, Either<String, Number> erhs) {
-            return erhs.flatmap(r -> exec(lhs, r));
+            return erhs.flatMap(r -> exec(lhs, r));
         }
 
         @Override
         public Either<String, Number> exec(Either<String, Number> elhs, Either<String, Number> erhs) {
-            return elhs.flatmap(l -> erhs.flatmap(r -> exec(l, r)));
+            return elhs.flatMap(l -> erhs.flatMap(r -> exec(l, r)));
         }
     }
 
@@ -286,17 +285,17 @@ public class QueryEager {
 
         @Override
         public Either<String, Bool> exec(Either<String, Bool> elhs, Bool rhs) {
-            return elhs.flatmap(l -> exec(l, rhs));
+            return elhs.flatMap(l -> exec(l, rhs));
         }
 
         @Override
         public Either<String, Bool> exec(Bool lhs, Either<String, Bool> erhs) {
-            return erhs.flatmap(r -> exec(lhs, r));
+            return erhs.flatMap(r -> exec(lhs, r));
         }
 
         @Override
         public Either<String, Bool> exec(Either<String, Bool> elhs, Either<String, Bool> erhs) {
-            return elhs.flatmap(l -> erhs.flatmap(r -> exec(l, r)));
+            return elhs.flatMap(l -> erhs.flatMap(r -> exec(l, r)));
         }
     }
 

@@ -1,9 +1,9 @@
-package com.relcache.core.pocs.query.types;
+package ds.pocs.query.types;
 
-import com.relcache.core.ds.Either;
-import com.relcache.core.ds.Right;
-import com.relcache.core.pocs.query.contract.IExpr;
-import com.relcache.core.pocs.query.contract.Type;
+import ds.common.Either;
+import ds.common.Right;
+import ds.pocs.query.contract.IExpr;
+import ds.pocs.query.contract.Type;
 
 public class Number implements IExpr<Number> {
     private Double val;

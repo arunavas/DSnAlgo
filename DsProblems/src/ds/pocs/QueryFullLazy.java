@@ -1,9 +1,8 @@
-package com.relcache.core.pocs;
+package ds.pocs;
 
-import com.relcache.core.ds.Either;
-import com.relcache.core.ds.Left;
-import com.relcache.core.ds.Right;
-
+import ds.common.Either;
+import ds.common.Left;
+import ds.common.Right;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -241,22 +240,22 @@ public class QueryFullLazy {
 
         @Override
         public Either<String, Supplier<Bool>> exec(IExpr<Number> lhs, IExpr<Number> rhs) {
-            return lhs.eval().flatmap(l -> rhs.eval().flatmap(r -> exec(l.get(), r.get())));
+            return lhs.eval().flatMap(l -> rhs.eval().flatMap(r -> exec(l.get(), r.get())));
         }
 
         /*@Override
         public Either<String, Supplier<Bool>> exec(Either<String, IExpr<Num>> elhs, IExpr<Num> rhs) {
-            return elhs.flatmap(l -> exec(l, rhs));
+            return elhs.flatMap(l -> exec(l, rhs));
         }
 
         @Override
         public Either<String, Supplier<Bool>> exec(IExpr<Num> lhs, Either<String, IExpr<Num>> erhs) {
-            return erhs.flatmap(r -> exec(lhs, r));
+            return erhs.flatMap(r -> exec(lhs, r));
         }
 
         @Override
         public Either<String, Supplier<Bool>> exec(Either<String, IExpr<Num>> elhs, Either<String, IExpr<Num>> erhs) {
-            return elhs.flatmap(l -> erhs.flatmap(r -> exec(l, r)));
+            return elhs.flatMap(l -> erhs.flatMap(r -> exec(l, r)));
         }*/
     }
 
@@ -295,22 +294,22 @@ public class QueryFullLazy {
 
         @Override
         public Either<String, Supplier<Number>> exec(IExpr<Number> lhs, IExpr<Number> rhs) {
-            return lhs.eval().flatmap(l -> rhs.eval().flatmap(r -> exec(l.get(), r.get())));
+            return lhs.eval().flatMap(l -> rhs.eval().flatMap(r -> exec(l.get(), r.get())));
         }
 
         /*@Override
         public Either<String, Supplier<Num>> exec(Either<String, IExpr<Num>> elhs, IExpr<Num> rhs) {
-            return elhs.flatmap(l -> exec(l, rhs));
+            return elhs.flatMap(l -> exec(l, rhs));
         }
 
         @Override
         public Either<String, Supplier<Num>> exec(IExpr<Num> lhs, Either<String, IExpr<Num>> erhs) {
-            return erhs.flatmap(r -> exec(lhs, r));
+            return erhs.flatMap(r -> exec(lhs, r));
         }
 
         @Override
         public Either<String, Supplier<Num>> exec(Either<String, IExpr<Num>> elhs, Either<String, IExpr<Num>> erhs) {
-            return elhs.flatmap(l -> erhs.flatmap(r -> exec(l, r)));
+            return elhs.flatMap(l -> erhs.flatMap(r -> exec(l, r)));
         }*/
     }
 
@@ -323,7 +322,7 @@ public class QueryFullLazy {
             Either<String, Supplier<Bool>> res;
             switch (this) {
                 case AND:
-                    res = lhs.eval().flatmap(l -> l.get().value() ? rhs.eval() : new Right<>(Bool::False));
+                    res = lhs.eval().flatMap(l -> l.get().value() ? rhs.eval() : new Right<>(Bool::False));
                     /*res = new Right<>(() -> {
                         if (lhs.value()) {
                             System.out.println("lhs is true -> moving to rhs");
@@ -336,7 +335,7 @@ public class QueryFullLazy {
                     break;
                 case OR:
                     System.out.println("OR Executed!");
-                    res = lhs.eval().flatmap(l -> l.get().value() ? new Right<>(Bool::True) : rhs.eval());
+                    res = lhs.eval().flatMap(l -> l.get().value() ? new Right<>(Bool::True) : rhs.eval());
                     //res = new Right<>(() -> new Bool(lhs.value() || rhs.value()));
                     break;
                 default:
@@ -348,17 +347,17 @@ public class QueryFullLazy {
 
         /*@Override
         public Either<String, Supplier<Bool>> exec(Either<String, IExpr<Bool>> elhs, IExpr<Bool> rhs) {
-            return elhs.flatmap(l -> exec(l, rhs));
+            return elhs.flatMap(l -> exec(l, rhs));
         }
 
         @Override
         public Either<String, Supplier<Bool>> exec(IExpr<Bool> lhs, Either<String, IExpr<Bool>> erhs) {
-            return erhs.flatmap(r -> exec(lhs, r));
+            return erhs.flatMap(r -> exec(lhs, r));
         }
 
         @Override
         public Either<String, Supplier<Bool>> exec(Either<String, IExpr<Bool>> elhs, Either<String, IExpr<Bool>> erhs) {
-            return elhs.flatmap(l -> erhs.flatmap(r -> exec(l, r)));
+            return elhs.flatMap(l -> erhs.flatMap(r -> exec(l, r)));
         }*/
     }
 

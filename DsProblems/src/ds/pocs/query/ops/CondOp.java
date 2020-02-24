@@ -1,13 +1,13 @@
-package com.relcache.core.pocs.query.ops;
+package ds.pocs.query.ops;
 
-import com.relcache.core.ds.Either;
-import com.relcache.core.ds.Left;
-import com.relcache.core.ds.Pair;
-import com.relcache.core.ds.Right;
-import com.relcache.core.pocs.query.contract.IExpr;
-import com.relcache.core.pocs.query.contract.Op;
-import com.relcache.core.pocs.query.contract.Type;
-import com.relcache.core.pocs.query.types.Bool;
+import ds.common.Either;
+import ds.common.Left;
+import ds.common.Pair;
+import ds.common.Right;
+import ds.pocs.query.contract.IExpr;
+import ds.pocs.query.contract.Op;
+import ds.pocs.query.contract.Type;
+import ds.pocs.query.types.Bool;
 
 public enum CondOp implements Op<Bool, Bool> {
     AND, OR, X;
@@ -20,11 +20,11 @@ public enum CondOp implements Op<Bool, Bool> {
         Either<String, Bool> res;
         switch (this) {
             case AND:
-                res = lhs.eval().flatmap(l -> l.value() ? rhs.eval() : new Right<>(Bool.False()));
+                res = lhs.eval().flatMap(l -> l.value() ? rhs.eval() : new Right<>(Bool.False()));
                 break;
             case OR:
                 System.out.println("OR Executed!");
-                res = lhs.eval().flatmap(l -> l.value() ? new Right<>(Bool.True()) : rhs.eval());
+                res = lhs.eval().flatMap(l -> l.value() ? new Right<>(Bool.True()) : rhs.eval());
                 break;
             default:
                 res = new Left<>("Invalid Operator: " + this);

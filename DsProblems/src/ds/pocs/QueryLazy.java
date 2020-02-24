@@ -1,9 +1,8 @@
-package com.relcache.core.pocs;
+package ds.pocs;
 
-import com.relcache.core.ds.Either;
-import com.relcache.core.ds.Left;
-import com.relcache.core.ds.Right;
-
+import ds.common.Either;
+import ds.common.Left;
+import ds.common.Right;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -220,17 +219,17 @@ public class QueryLazy {
 
         @Override
         public Either<String, Supplier<Bool>> exec(Either<String, Supplier<Number>> elhs, Supplier<Number> rhs) {
-            return elhs.flatmap(l -> exec(l, rhs));
+            return elhs.flatMap(l -> exec(l, rhs));
         }
 
         @Override
         public Either<String, Supplier<Bool>> exec(Supplier<Number> lhs, Either<String, Supplier<Number>> erhs) {
-            return erhs.flatmap(r -> exec(lhs, r));
+            return erhs.flatMap(r -> exec(lhs, r));
         }
 
         @Override
         public Either<String, Supplier<Bool>> exec(Either<String, Supplier<Number>> elhs, Either<String, Supplier<Number>> erhs) {
-            return elhs.flatmap(l -> erhs.flatmap(r -> exec(l, r)));
+            return elhs.flatMap(l -> erhs.flatMap(r -> exec(l, r)));
         }
     }
 
@@ -270,17 +269,17 @@ public class QueryLazy {
 
         @Override
         public Either<String, Supplier<Number>> exec(Either<String, Supplier<Number>> elhs, Supplier<Number> rhs) {
-            return elhs.flatmap(l -> exec(l, rhs));
+            return elhs.flatMap(l -> exec(l, rhs));
         }
 
         @Override
         public Either<String, Supplier<Number>> exec(Supplier<Number> lhs, Either<String, Supplier<Number>> erhs) {
-            return erhs.flatmap(r -> exec(lhs, r));
+            return erhs.flatMap(r -> exec(lhs, r));
         }
 
         @Override
         public Either<String, Supplier<Number>> exec(Either<String, Supplier<Number>> elhs, Either<String, Supplier<Number>> erhs) {
-            return elhs.flatmap(l -> erhs.flatmap(r -> exec(l, r)));
+            return elhs.flatMap(l -> erhs.flatMap(r -> exec(l, r)));
         }
     }
 
@@ -316,17 +315,17 @@ public class QueryLazy {
 
         @Override
         public Either<String, Supplier<Bool>> exec(Either<String, Supplier<Bool>> elhs, Supplier<Bool> rhs) {
-            return elhs.flatmap(l -> exec(l, rhs));
+            return elhs.flatMap(l -> exec(l, rhs));
         }
 
         @Override
         public Either<String, Supplier<Bool>> exec(Supplier<Bool> lhs, Either<String, Supplier<Bool>> erhs) {
-            return erhs.flatmap(r -> exec(lhs, r));
+            return erhs.flatMap(r -> exec(lhs, r));
         }
 
         @Override
         public Either<String, Supplier<Bool>> exec(Either<String, Supplier<Bool>> elhs, Either<String, Supplier<Bool>> erhs) {
-            return elhs.flatmap(l -> erhs.flatmap(r -> exec(l, r)));
+            return elhs.flatMap(l -> erhs.flatMap(r -> exec(l, r)));
         }
     }
 

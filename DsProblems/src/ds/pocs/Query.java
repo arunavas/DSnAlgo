@@ -1,25 +1,23 @@
-package com.relcache.core.pocs;
+package ds.pocs;
 
-import com.relcache.core.query.contract.IExpr;
-import com.relcache.core.query.ops.CondOp;
-import com.relcache.core.query.ops.GenNumOp;
-import com.relcache.core.query.ops.RelNumOp;
-import com.relcache.core.query.types.Expr;
-import com.relcache.core.query.types.Bool;
-import com.relcache.core.query.types.Num;
-
+import ds.pocs.query.contract.IExpr;
+import ds.pocs.query.ops.CondOp;
+import ds.pocs.query.ops.GenNumOp;
+import ds.pocs.query.ops.RelNumOp;
+import ds.pocs.query.types.Bool;
+import ds.pocs.query.types.Expr;
+import ds.pocs.query.types.Number;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Query {
 
-    private static IExpr<Num> a = new Num(10);
-    private static Num b = new Num(20);
-    private static Num v0 = new Num(0);
-    private static Num v2 = new Num(2);
-    private static Num v5 = new Num(5);
-    private static Num v9 = new Num(9);
-    private static Map<String, String> map = new HashMap<>();
+    private static IExpr<Number> a = new Number(10);
+    private static Number b = new Number(20);
+    private static Number v0 = new Number(0);
+    private static Number v2 = new Number(2);
+    private static Number v5 = new Number(5);
+    private static Number v9 = new Number(9);
 
     public static void main(String[] args) {
         //           10 < 20 and (20 % 2 == 0 or 20 ==9) and 10 > 5
@@ -82,7 +80,7 @@ public class Query {
                         CondOp.AND,
                         new Expr<>(a, RelNumOp.GT, v5)
                 ));
-        System.out.println(ex.eval(map));
+        System.out.println(ex.eval());
     }
     private static void partialExecute() {
         IExpr<Bool> ex = new Expr<>(
@@ -99,7 +97,7 @@ public class Query {
                         CondOp.AND,
                         new Expr<>(a, RelNumOp.GT, v5)
                 ));
-        System.out.println(ex.eval(map));
+        System.out.println(ex.eval());
     }
     private static void failExecute() {
         IExpr<Bool> ex = new Expr<>(
@@ -116,12 +114,12 @@ public class Query {
                         CondOp.AND,
                         new Expr<>(a, RelNumOp.GT, v5)
                 ));
-        System.out.println(ex.eval(map));
+        System.out.println(ex.eval());
     }
     private static void numExecute() {
         //IExpr<Num> exp = new Expr<>(new Num(2), GenNumOp.ADD, new Expr<>(new Num(3), GenNumOp.MUL, new Num(5)));
-        IExpr<Num> exp = new Expr<>(new Num(2), GenNumOp.MUL, new Expr<>(new Num(3), GenNumOp.ADD, new Num(5)));
+        IExpr<Number> exp = new Expr<>(new Number(2), GenNumOp.MUL, new Expr<>(new Number(3), GenNumOp.ADD, new Number(5)));
         System.out.println(exp);
-        System.out.println(exp.eval(map));
+        System.out.println(exp.eval());
     }
 }

@@ -1,6 +1,6 @@
-package com.relcache.core.pocs.query.contract;
+package ds.pocs.query.contract;
 
-import com.relcache.core.ds.Either;
+import ds.common.Either;
 
 public interface IExpr<T> {
     Either<String, T> eval();
