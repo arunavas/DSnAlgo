@@ -1,3 +1,6 @@
-##Data Structures and Algorithm.
+# Data Structures and Algorithm.
 
-All my practices/learnings in ds & algo in Java/Haskell/Scala
+- All my practices/learnings in ds & algo in
+    - Java
+    - Haskell
+    - Scala
